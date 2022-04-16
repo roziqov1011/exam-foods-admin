@@ -13,7 +13,6 @@ function App() {
 
 const [ categoryID, setCountryID ] = useState("")
 const [ restaranID, setRestaranID ] = useState("")
-const [ count, setCount ] = useState([1])
 const [ branchID, setBranchID ] = useState("")
 const { data } = useQuery(COUNTRIES)
 const { data:orders } = useQuery(ORDERS)
@@ -32,18 +31,18 @@ variables: { branchID }
 
 const [ newRegion ] = useMutation(NEW_REGION, {
 update: (cache, data) => {
-console.log(data)
+console.log(data,cache)
 }
 })
 const [ newBranch ] = useMutation(NEW_BRANCH, {
 update: (cache, data) => {
-console.log(data)
+  console.log(data,cache)
 }
 })
 
 const [ newMenu ] = useMutation(NEW_MENU, {
 update: (cache, data) => {
-console.log(data)
+  console.log(data,cache)
 }
 })
 
@@ -95,10 +94,7 @@ branchID: select.value});
 
 
 
-const hendleCount =()=>{
-  setCount(count+1)
-  console.log(count);
-}
+
 let categorys = document.querySelector('.categorys ')
 let categorys1 = document.querySelector('.categorys1 ')
 let categorys2 = document.querySelector('.categorys2 ')
@@ -129,12 +125,12 @@ return (<>
     <button type="button" className="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
   <div className="offcanvas-body">
+    <h4>Byurtma berilgan ovqatlar</h4>
   {orders && orders.Orders.map((e,i)=>(
      <div key={i} className="card card-body">
        <img src={food} alt="" className='card-img' />
        <h4>{e.name}</h4>
        <h4>{e.price} so'm</h4>
-       <button  className='btn btn-success' id={e.id}>sotib olish</button>
      </div>
    ))}
   </div>
@@ -258,7 +254,7 @@ return (<>
     <div key={i}  onClick={()=> setBranchID(e.id)}  className="card">
       <div className="card-body">
           <h5 className="card-title">{e.name}</h5>
-          <button onClick={()=>setCount(1)} href="#" className="btn btn-primary">{e.name}</button>
+          <button  href="#" className="btn btn-primary">{e.name}</button>
         </div>
     </div>
     ))
@@ -268,10 +264,10 @@ return (<>
     <div className='card-list'>
     {
     menuData && menuData.Menus.map((e, i) => (
-    <div onClick={()=> setBranchID(e.id)}  key={i} className="card">
+    <div  key={i} className="card">
       <div className="card-body">
           <button className="btn btn-primary">{e.name}</button>
-          <p href="#" className=" mt-3">{e.price * count} so'm</p>
+          <p href="#" className=" mt-3">{e.price } so'm</p>
         </div>
     </div>
     ))
